@@ -7,8 +7,6 @@
 #
 # Usage:
 # bash run_mirdeep2_pipeline.sh <input_directory> <output_directory> <bowtie_index_path> <reference_genome> <mature_mirna_file> <hairpin_mirna_file>
-# Example:
-# bash run_mirdeep2_pipeline.sh /home_beegfs/tatjan01/MSc_Thesis/prepdata/rawdata/smallRNA /home_beegfs/tatjan01/MSc_Thesis/prepdata/procdata/04_miRDeep2/raw_miRNAs/mapping /home_beegfs/tatjan01/MSc_Thesis/tools/miRDeep2/bowtie_build/hsa /home_beegfs/tatjan01/MSc_Thesis/tools/miRDeep2/reference_miRNAs/hsa.fa /home_beegfs/tatjan01/MSc_Thesis/tools/miRDeep2/reference_miRNAs/mature_3.fa /home_beegfs/tatjan01/MSc_Thesis/tools/miRDeep2/reference_miRNAs/hairpin_3.fa
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 6 ]; then
