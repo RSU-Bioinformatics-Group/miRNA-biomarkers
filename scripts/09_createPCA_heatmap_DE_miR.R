@@ -7,7 +7,7 @@
 # generates PCA plots, distinguishing different sample groups. The resulting heatmap and PCA plots are saved to a PDF.
 
 # USAGE:
-# Rscript analysis_script.R --input <expression_data_file> --output <output_pdf_file>
+# Rscript 09_createPCA_heatmap_DE_miR.R --input <expression_data_file> --output <output_pdf_file>
 
 library(ComplexHeatmap)
 library(RColorBrewer)
