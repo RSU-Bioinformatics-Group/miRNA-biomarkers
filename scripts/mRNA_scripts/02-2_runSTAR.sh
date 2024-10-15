@@ -2,9 +2,7 @@
 
 # This script runs STAR for mapping paired-end RNA-seq reads to a reference genome.
 # Usage:
-# bash star_mapping.sh <genome_directory> <forward_reads_directory> <reverse_reads_directory> <output_directory>
-# Example:
-# bash star_mapping.sh /path/to/genome_dir /path/to/forward_reads /path/to/reverse_reads /path/to/output_dir
+# bash 02-2_runSTAR.sh <genome_directory> <forward_reads_directory> <reverse_reads_directory> <output_directory>
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 4 ]; then
