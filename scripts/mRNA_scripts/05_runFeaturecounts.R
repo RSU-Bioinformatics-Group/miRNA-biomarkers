@@ -6,8 +6,7 @@
 # 2. A counts file with Gene IDs and their corresponding counts.
 # 
 # USAGE:
-# Rscript your_script_name.R <bam_file> <gene_annotation_file> <output_file_status> <output_file_counts>
-##########################################################################################################
+# Rscript 05_runFeaturecounts.R <bam_file> <gene_annotation_file> <output_file_status> <output_file_counts>
 
 # Load the Rsubread library 
 library(Rsubread)
