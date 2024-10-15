@@ -8,7 +8,7 @@
 # them into a single PDF, with a common legend included at the bottom.
 
 # USAGE:
-# Rscript volcano_plots.R --output <output_pdf_file> --input_bc_up <B_vs_C_UP.xlsx> --input_bc_down <B_vs_C_DOWN.xlsx> --input_vc_up <V_vs_C_UP.xlsx> --input_vc_down <V_vs_C_DOWN.xlsx> --input_bv_up <B_vs_V_UP.xlsx> --input_bv_down <B_vs_V_DOWN.xlsx>
+# Rscript 08_createVolcanoPlots.R --output <output_pdf_file> --input_bc_up <B_vs_C_UP.xlsx> --input_bc_down <B_vs_C_DOWN.xlsx> --input_vc_up <V_vs_C_UP.xlsx> --input_vc_down <V_vs_C_DOWN.xlsx> --input_bv_up <B_vs_V_UP.xlsx> --input_bv_down <B_vs_V_DOWN.xlsx>
 
 # Required Libraries
 library(tidyverse)
