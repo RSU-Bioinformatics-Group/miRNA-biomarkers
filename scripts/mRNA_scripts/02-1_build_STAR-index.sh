@@ -2,7 +2,7 @@
 
 # This script generates a STAR genome index from a reference genome FASTA file and a GTF annotation file.
 # Usage:
-# bash 02_build_STAR-index.sh <genome_fasta> <gtf_file> <output_directory>
+# bash 02-1_build_STAR-index.sh <genome_fasta> <gtf_file> <output_directory>
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 3 ]; then
