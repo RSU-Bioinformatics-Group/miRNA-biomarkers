@@ -8,7 +8,7 @@
 # 4. Sorts and writes results to separate TSV and XLSX files based on log-fold change and p-value.
 
 # USAGE:
-# Rscript runLIMMA_DE.R
+# Rscript 05_runLIMMA_DE.R
 
 # Load required packages
 library(limma)
@@ -85,7 +85,7 @@ sort_by_fc_pval <- function(input_file, output_up_file, output_down_file) {
 # Main function to run all steps
 main <- function() {
   # Step 1: Normalize counts
-  normalize_counts('../proc/01_featureCounts/countDataFilt10Counts.txt', '../proc/01_featureCounts/normalizedTMMlog2Cpmplus1.csv')
+  normalize_counts('../01_featureCounts/countDataFilt10Counts.txt', '../01_featureCounts/normalizedTMMlog2Cpmplus1.csv')
   
   # Step 2: Differential analysis with defined sample groups
   
