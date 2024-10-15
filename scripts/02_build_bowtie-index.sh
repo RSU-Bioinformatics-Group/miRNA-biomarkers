@@ -2,9 +2,7 @@
 
 # This script builds a Bowtie index from a reference genome FASTA file.
 # Usage:
-# bash build_bowtie_index.sh <genome_fasta> <index_name> <output_directory>
-# Example:
-# bash build_bowtie_index.sh /path/to/genome.fa hsa_v2 /path/to/output_directory
+# bash 02_build_bowtie-index.sh <genome_fasta> <index_name> <output_directory>
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 3 ]; then
