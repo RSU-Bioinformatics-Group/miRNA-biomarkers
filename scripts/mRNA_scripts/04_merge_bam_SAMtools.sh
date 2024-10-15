@@ -2,8 +2,8 @@
 
 # This script uses SAMtools to merge BAM files from multiple subdirectories into single BAM files.
 # It accepts the base input directory and output directory as command-line arguments.
-# Usage: bash your_script_name.sh <input_directory> <output_directory>
-# Example: bash merge_bam_SAMtools.sh path/to/input/directory path/to/output/directory 
+#
+# Usage: bash 04_merge_bam_SAMtools.sh <input_directory> <output_directory>
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 2 ]; then
