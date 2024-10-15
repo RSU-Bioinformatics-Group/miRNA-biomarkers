@@ -5,9 +5,7 @@
 # FastQC is run on all .fq files in the input directory, and MultiQC generates a summary report based on the FastQC results.
 
 # Usage:
-#   bash run_fastqc_multiqc.sh /path/to/input_directory /path/to/output_directory
-# Example:
-#   bash run_fastqc_multiqc.sh /home/user/data /home/user/results
+#   bash 01_runFastQC_MultiQC.sh /path/to/input_directory /path/to/output_directory
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 2 ]; then
