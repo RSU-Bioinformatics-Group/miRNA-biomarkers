@@ -12,7 +12,7 @@ import pandas as pd
 # 2. Transforms the count data into a matrix format with miRNAs as rows and samples as columns.
 # 3. Filters out miRNAs with median counts below a specified threshold (10).
 # 
-# USAGE: python script_name.py <input_directory> <output_directory> <clinical_ids_file>
+# USAGE: python 04_mergePrecursors_filterLowCounts.py <input_directory> <output_directory> <clinical_ids_file>
 
 def main():
     """
