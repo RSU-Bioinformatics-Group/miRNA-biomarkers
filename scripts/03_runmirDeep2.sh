@@ -6,7 +6,7 @@
 # 3. Runs miRDeep2 to analyze miRNAs.
 #
 # Usage:
-# bash run_mirdeep2_pipeline.sh <input_directory> <output_directory> <bowtie_index_path> <reference_genome> <mature_mirna_file> <hairpin_mirna_file>
+# bash 03_runmirDeep2.sh <input_directory> <output_directory> <bowtie_index_path> <reference_genome> <mature_mirna_file> <hairpin_mirna_file>
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 6 ]; then
