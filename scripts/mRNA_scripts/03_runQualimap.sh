@@ -2,9 +2,7 @@
 
 # This script runs Qualimap RNA-Seq analysis on BAM files generated from RNA mapping.
 # Usage:
-# bash qualimap_RNA.sh <input_bam_directory> <output_directory> <gtf_file>
-# Example:
-# bash qualimap_RNA.sh /path/to/input_bam /path/to/output_directory /path/to/annotation.gtf
+# bash 03_runQualimap.sh <input_bam_directory> <output_directory> <gtf_file>
 
 # Check if the correct number of arguments are provided
 if [ "$#" -ne 3 ]; then
