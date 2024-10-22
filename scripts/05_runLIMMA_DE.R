@@ -5,7 +5,7 @@
 # 1. Normalizes count data using the TMM method and calculates log2 counts per million (CPM) plus 1.
 # 2. Performs differential expression analysis using the limma package, comparing bacterial, viral, and control groups.
 # 3. Extracts and writes the top differentially expressed genes to files.
-# 4. Sorts and writes results to separate TSV and XLSX files based on log-fold change and p-value.
+# 4. Sorts and writes results to separate TSV files based on log-fold change and p-value.
 
 # USAGE:
 # Rscript 05_runLIMMA_DE.R
@@ -13,10 +13,6 @@
 # Load required packages
 library(limma)
 library(edgeR)
-library(ggplot2)
-library(gplots)
-library(RColorBrewer)
-library(openxlsx)
 
 # Main function to normalize counts
 normalize_counts <- function(input_file, output_file) {
@@ -71,15 +67,6 @@ sort_by_fc_pval <- function(input_file, output_up_file, output_down_file) {
   # Write sorted data frames to TSV format
   write.table(ordDFup, file = paste0(output_up_file, ".tsv"), sep = "\t", row.names = FALSE, col.names = TRUE, quote = FALSE)
   write.table(ordDFdown, file = paste0(output_down_file, ".tsv"), sep = "\t", row.names = FALSE, col.names = TRUE, quote = FALSE)
-  
-  # Write sorted data frames to XLSX format
-  wb <- createWorkbook()
-  addWorksheet(wb, sheetName = "Upregulated")
-  addWorksheet(wb, sheetName = "Downregulated")
-  writeData(wb, sheet = "Upregulated", x = ordDFup)
-  writeData(wb, sheet = "Downregulated", x = ordDFdown)
-  saveWorkbook(wb, paste0(output_up_file, ".xlsx"), overwrite = TRUE)
-  saveWorkbook(wb, paste0(output_down_file, ".xlsx"), overwrite = TRUE)
 }
 
 # Main function to run all steps
