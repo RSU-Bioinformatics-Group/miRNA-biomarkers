@@ -2,6 +2,7 @@
 This repository contains scripts that were used for miRNA and mRNA data pre-processing and miRNA diagnostic features prioritization in paediatric patients with bacterial or viral infections. All the analysis are optimized for execution within a High-Performance Computing (HPC) environment using provided Docker images. 
 ## Description
 <img src="https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031" width="600">
+<p>
 A summary of workflow. Urine miRNA data analysis workflow marked in yellow, whole blood transcriptome data analysis workflow – in light red, workflow connecting both data types – in orange.
 The repository contains all the scripts used pre-processing and analysing miRNA and mRNA datasets for diagnostic feature discovering. The steps include:
 ### miRNA workflow:
@@ -24,3 +25,4 @@ Before running the workflow please ensure:
 2.
 3.
 ### Running the workflow:
+</p>
