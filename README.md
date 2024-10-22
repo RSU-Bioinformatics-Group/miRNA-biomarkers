@@ -9,7 +9,7 @@ miRNA workflow:
 - Normalisation and differential expression analysis using R packages edgeR and limma.
 - Feature selection for important diagnostic miRNA using logistic regression and ANOVA implemented via R package glmnet and Python library scikit-learn.
 - Image producting using various R libraries mentioned below.
-![Workflow_github](https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031)
+![Workflow_github](https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031 | width=100)
 A summary of workflow. 
 mRNA workflow:
 - Quality control of the raw data using FastQC and combining the outputs using MultiQC.
