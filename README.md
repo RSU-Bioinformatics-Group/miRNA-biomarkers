@@ -17,11 +17,30 @@ The repository contains all the scripts used pre-processing and analysing miRNA 
 - Normalisation and differential expression using R packages edgeR, limma and DESeq2.
 - Image producting using various R libraries mentioned below.
 ## Usage: 
-Before running the workflow please ensure:
-1. You have all the necessary dependencies installed.
-2.
-3.
-### Running the workflow:
+### Prerequisites:
+Before running the scripts please ensure:
+1. You have Docker installed on your machine. Check this link for more information: https://docs.docker.com/engine/install/
+2. Prepare the necessary reference files. Run following commands:
+- for reference genome:
+wget https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
+wget https://ftp.ensembl.org/pub/release-113/gtf/homo_sapiens/Homo_sapiens.GRCh38.113.gtf.gz
+gunzip Homo_sapiens.GRCh38.113.gtf.gz Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
+- for miRNA sequences from miRBase:
+wget https://www.mirbase.org/download/CURRENT/hairpin.fa
+wget https://www.mirbase.org/download/CURRENT/mature.fa
+perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
+perl -plane 's/\s+.+$//' < hairpin.fa > hairpin_2.fa
+extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
+extract_miRNAs.pl mature_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
+
+
+
+4.
+### Using the workflow:
+
+
+For reproducibility and convinience the scripts for data preprocessing and differential expression can be run using a Docker container. The Dockerfile for building the image is provided in this repository. To build the image use the following command:
+docker build -t mirna-biomarker-pipeline:latest .
 
 <img src="https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031" width="600">
 A summary of the workflow. Urine miRNA data analysis workflow marked in yellow, whole blood transcriptome data analysis workflow – in light red, workflow connecting both data types – in orange.
