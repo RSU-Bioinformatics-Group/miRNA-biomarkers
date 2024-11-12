@@ -22,17 +22,20 @@ Before running the scripts please ensure:
 1. You have Docker installed on your machine. Check this link for more information: https://docs.docker.com/engine/install/
 2. Prepare the necessary reference files. Run following commands:
 - for reference genome:
+```
 wget https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
 wget https://ftp.ensembl.org/pub/release-113/gtf/homo_sapiens/Homo_sapiens.GRCh38.113.gtf.gz
 gunzip Homo_sapiens.GRCh38.113.gtf.gz Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
+```
 - for miRNA sequences from miRBase:
+```
 wget https://www.mirbase.org/download/CURRENT/hairpin.fa
 wget https://www.mirbase.org/download/CURRENT/mature.fa
 perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
 perl -plane 's/\s+.+$//' < hairpin.fa > hairpin_2.fa
 extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
 extract_miRNAs.pl mature_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
-
+```
 
 
 4.
