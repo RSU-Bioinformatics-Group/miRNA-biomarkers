@@ -26,13 +26,13 @@ chmod a+rwx $OUTPATH
 for file in $INPATH/*.fq ;
 do
     echo "Running FastQC on $file..."
-    docker run --rm -v $INPATH:/data -v $OUTPATH:/output your-container-name fastqc /data/$(basename $file) --outdir /output -t 4
+    fastqc /data/$(basename $file) --outdir /output -t 4
 done
 
 # After FastQC completes for all files, run MultiQC to aggregate the results
 # -f option forces MultiQC to overwrite any existing reports in the output directory
 echo "Running MultiQC on FastQC output (forcing report overwrite with -f)..."
-docker run --rm -v $OUTPATH:/output your-container-name multiqc /output -o /output -f
+multiqc /output -o /output -f
 
 # Print a completion message
 echo "FastQC and MultiQC analysis complete!"
