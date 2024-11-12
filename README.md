@@ -22,26 +22,26 @@ Before running the scripts please ensure:
 1. You have Docker installed on your machine. Check this link for more information: https://docs.docker.com/engine/install/
 In case you want to use the workflow within an HPC environment, you should have Singularity installed there. Learn more about Singularity: https://bioinformaticsworkbook.org/Appendix/HPC/Containers/Intro_Singularity.html#gsc.tab=0
 2. You have cloned the Github repository with the necessary scripts. To do this, run (replace . with the directory you want to clone the repository to if necessary):
-```
+```ruby
 git clone https://github.com/tkiselova/miRNA-biomarkers .
 ```
 3. For reproducibility and convinience the scripts for data preprocessing and differential expression can be run using a Docker container. The Dockerfile for building the image is provided in this repository. To build the image use the following command (replace . with the directory where the Dockerfile is located if necessary):
-```
+```ruby
 docker build -t mirna-biomarker-pipeline:latest .
 ```
 In case you want to use Singularity, use this command. It will pull the Docker image and convert it into a Singularity format (*.sif):
-```
+```ruby
 sungularity pull /path/to/image
 ```
 4. Prepare the necessary reference files. Run following commands:
 - for reference genome:
-```
+```ruby
 wget https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
 wget https://ftp.ensembl.org/pub/release-113/gtf/homo_sapiens/Homo_sapiens.GRCh38.113.gtf.gz
 gunzip Homo_sapiens.GRCh38.113.gtf.gz Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
 ```
 - for miRNA sequences from miRBase. The extract_miRNAs.pl script from miRDeep2 prepares the reference files for further use for miRDeep2 so make sure you run this command inside the container:
-```
+```ruby
 wget https://www.mirbase.org/download/CURRENT/hairpin.fa
 wget https://www.mirbase.org/download/CURRENT/mature.fa
 perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
@@ -50,7 +50,7 @@ docker run -v /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline extract_miRNA
 docker run -v /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
 ```
 If you are using Singularity, instead run:
-```
+```ruby
 wget https://www.mirbase.org/download/CURRENT/hairpin.fa
 wget https://www.mirbase.org/download/CURRENT/mature.fa
 perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
