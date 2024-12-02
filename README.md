@@ -69,6 +69,7 @@ singularity exec --bind /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline ex
 1. Running FastQC and MultiQC (replace `/path/to/script`, `/path/to/input_directory` and `/path/to/output_directory` with paths to directory, where scripts are located, path to input files and path to output files respectively):
 ```
 docker run -v /path/to/script:/data2 mirna-biomarker-pipeline 01_runFastQC_MultiQC.sh /path/to/input_directory /path/to/output_directory
+```
 
 <img src="https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031" width="600">
 A summary of the workflow. Urine miRNA data analysis workflow marked in yellow, whole blood transcriptome data analysis workflow – in light red, workflow connecting both data types – in orange.
