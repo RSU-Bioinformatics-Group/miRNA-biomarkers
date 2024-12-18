@@ -7,7 +7,7 @@
 # The script also generates a ROC curve and exports evaluation results, including selected features, to a PDF.
 
 # USAGE:
-# Rscript 06_runLASSO_DEG.R <upregulated_genes_file> <downregulated_genes_file> <normalized_expression_file>
+# Rscript 05_runLASSO_DEG.R <upregulated_genes_file> <downregulated_genes_file> <normalized_expression_file>
 
 # Load necessary libraries
 library(glmnet)
