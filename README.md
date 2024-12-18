@@ -1,5 +1,5 @@
 # miRNA-biomarkers
-This repository contains scripts that were used for miRNA and mRNA data pre-processing and miRNA diagnostic features prioritization in paediatric patients with bacterial or viral infections. All the analysis are optimized for execution within a High-Performance Computing (HPC) environment using provided Docker image. 
+This repository contains scripts that were used for miRNA and mRNA data pre-processing and miRNA diagnostic features prioritization in paediatric patients with bacterial or viral infections. All the analysis are optimized for execution using provided Docker image. 
 ## Description
 The repository contains all the scripts used pre-processing and analysing miRNA and mRNA datasets for diagnostic feature discovering. The steps include:
 ### miRNA workflow:
@@ -40,21 +40,37 @@ chmod 775 /path/to/output_data
 chmod 775 /path/to/references
 chmod 775 /path/to/input_data
 ```
-5. Prepare the necessary reference files. Run following commands:
+5. Prepare the necessary reference files. Run following commands (replace `/path/to/` with appropriate paths to files):
 - for reference genome:
 ```
 wget https://ftp.ensembl.org/pub/release-113/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
 wget https://ftp.ensembl.org/pub/release-113/gtf/homo_sapiens/Homo_sapiens.GRCh38.113.gtf.gz
 gunzip Homo_sapiens.GRCh38.113.gtf.gz Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
 ```
-- for miRNA sequences from miRBase. The `extract_miRNAs.pl` script from miRDeep2 prepares the reference files for further use for miRDeep2 so make sure you run this command inside the container:
+- building bowtie index for miRDeep2:
+```
+docker run -v /path/to/references:/data2 build_bowtie-index.sh /path/to/genome_fasta output_file_name 
+```
+If you are using Singularity, instead run:
+```
+singularity exec --bind /path/to/references:/data2 build_bowtie-index.sh /path/to/genome_fasta output_file_name
+```
+- building STAR index for mRNA alignment:
+```
+docker run -v /path/to/references:/data2 build_STAR-index.sh /path/to/genome_fasta /path/to/gtf_file
+```
+or, for Singularity:
+```
+singularity exec --bind /path/to/references:/data2 build_STAR-index.sh /path/to/genome_fasta /path/to/gtf_file
+```
+- for miRNA sequences from miRBase. The `extract_miRNAs.pl` script from miRDeep2 prepares the reference files for further use for miRDeep2:
 ```
 wget https://www.mirbase.org/download/CURRENT/hairpin.fa
 wget https://www.mirbase.org/download/CURRENT/mature.fa
 perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
 perl -plane 's/\s+.+$//' < hairpin.fa > hairpin_2.fa
 docker run -v /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
-docker run -v /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
+docker run -v /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
 ```
 If you are using Singularity, instead run:
 ```
@@ -66,10 +82,42 @@ singularity exec --bind /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline ext
 singularity exec --bind /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
 ```
 ### Running the workflow:
-1. Running FastQC and MultiQC (replace `/path/to/script`, `/path/to/input_directory` and `/path/to/output_directory` with paths to directory, where scripts are located, path to input files and path to output files respectively):
+1. Running FastQC and MultiQC (replace `/path/to/` with paths to appropriate directories):
 ```
-docker run -v /path/to/script:/data2 mirna-biomarker-pipeline 01_runFastQC_MultiQC.sh /path/to/input_directory /path/to/output_directory
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline 01_runFastQC_MultiQC.sh /path/to/input_directory /path/to/output_directory
 ```
+#### miRNA workflow:
+2. Running miRDeep2 for miRNA alignment and count generation (replace `/path/to/` with paths to appropriate directories):
+```
+docker run -v /path/to/parent_dir:/data2 03_runmirDeep2.sh path/to/input_directory path/to/output_directory path/to/bowtie_index_path path/to/reference_genome path/to/mature_mirna_file path/to/hairpin_mirna_file
+```
+3. Merging miRNA precursors and filter out low (median <10) counts (replace `/path/to/` with paths to appropriate directories):
+```
+docker run -v /path/to/parent_dir:/data2 04_mergePrecursors_filterLowCounts.py path/to/input_directory path/to/output_directory path/to/clinical_ids_file
+
+```
+4. Performing differential expression analysis using limma (replace `/path/to/` with paths to appropriate directories):
+```
+docker run -v /path/to/parent_dir:/data2 04_runLIMMA_DE.R /path/to/counts_table
+```
+5. Feature seelction with LASSO regularised linear regression (replace `/path/to/` with paths to appropriate directories):
+```
+docker run -v /path/to/parent_dir:/data2 05_runLASSO_DEG.R /path/to/upregulated_genes_file /path/to/downregulated_genes_file /path/to/normalized_expression_file
+```
+6. Feature selection with ANOVA (replace `/path/to/` with paths to appropriate directories):
+```
+docker run -v /path/to/parent_dir:/data2 06_runANOVA_DEG.py --normalized /path/to/normalized_data_file --up /path/to/upregulated_genes_file --down /path/to/downregulated_genes_file --output /path/to/output_csv_file
+```
+7. Creating volcano plots for differentially expressed genes:
+8. Performing PCA and clustering analysis with figure generation:
+
+#### mRNA workflow
+2. Running STAR for alignment:
+3. Running Qualimap with MultiQC for alignment quliaty control:
+4. Merging files from different sequencing lanes of one sample with Samtools:
+5. Generating counts with featureCounts:
+6. Merging count table :
+7. Mapping gene names to Ensemble 
 
 <img src="https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031" width="600">
 A summary of the workflow. Urine miRNA data analysis workflow marked in yellow, whole blood transcriptome data analysis workflow – in light red, workflow connecting both data types – in orange.
