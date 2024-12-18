@@ -1,14 +1,11 @@
 #!/usr/bin/env Rscript
 
 # DESCRIPTION:
-# This R script performs the following tasks:
-# 1. Normalizes count data using the TMM method and calculates log2 counts per million (CPM) plus 1.
-# 2. Performs differential expression analysis using the limma package, comparing bacterial, viral, and control groups.
-# 3. Extracts and writes the top differentially expressed genes to files.
-# 4. Sorts and writes results to separate TSV files based on log-fold change and p-value.
+# This R script performs normalization, differential expression analysis, and result sorting.
+# The input file `countDataFilt10Counts.txt` can now be specified as a command-line argument.
 
 # USAGE:
-# Rscript 05_runLIMMA_DE.R
+# Rscript 05_runLIMMA_DE.R <counts_table>
 
 # Load required packages
 library(limma)
@@ -71,14 +68,23 @@ sort_by_fc_pval <- function(input_file, output_up_file, output_down_file) {
 
 # Main function to run all steps
 main <- function() {
+  # Check for command-line arguments
+  args <- commandArgs(trailingOnly = TRUE)
+  if (length(args) != 1) {
+    stop("Usage: Rscript 05_runLIMMA_DE.R /path/to/countDataFilt10Counts.txt")
+  }
+  
+  # Input file from command-line argument
+  input_file <- args[1]
+  
   # Step 1: Normalize counts
-  normalize_counts('../01_featureCounts/countDataFilt10Counts.txt', '../01_featureCounts/normalizedTMMlog2Cpmplus1.csv')
+  normalize_counts(input_file, 'normalizedTMMlog2Cpmplus1.csv')
   
   # Step 2: Differential analysis with defined sample groups
   
   # Comparison 1: Bacterial (B) vs Control (C)
   perform_differential_analysis(
-    'countDataFilt10Counts_DE.txt',
+    'normalizedTMMlog2Cpmplus1.csv',
     '03_1_DEGs_B_vs_C.csv',
     2:8, 16:23,  # First 7 columns for B, last 8 for C
     c(rep("B", 7), rep("C", 8)),
@@ -87,7 +93,7 @@ main <- function() {
   
   # Comparison 2: Viral (V) vs Control (C)
   perform_differential_analysis(
-    'countDataFilt10Counts_DE.txt',
+    'normalizedTMMlog2Cpmplus1.csv',
     '03_2_DEGs_V_vs_C.csv',
     9:15, 16:23,  # Columns 9-15 for V, last 8 for C
     c(rep("V", 7), rep("C", 8)),
@@ -96,7 +102,7 @@ main <- function() {
   
   # Comparison 3: Bacterial (B) vs Viral (V)
   perform_differential_analysis(
-    'countDataFilt10Counts_DE.txt',
+    'normalizedTMMlog2Cpmplus1.csv',
     '03_3_DEGs_B_vs_V.csv',
     2:8, 9:15,  # First 7 columns for B, columns 9-15 for V
     c(rep("B", 7), rep("V", 7)),
