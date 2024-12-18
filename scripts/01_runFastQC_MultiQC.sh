@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script runs FastQC and MultiQC using Docker containers for quality control analysis of sequencing data.
+# This script runs FastQC and MultiQC for quality control analysis of raw sequencing data.
 # It accepts input and output directories as command-line arguments.
 # FastQC is run on all .fq files in the input directory, and MultiQC generates a summary report based on the FastQC results.
 
@@ -23,7 +23,7 @@ chmod a+rwx $OUTPATH
 
 # Loop through all .fq files in the input directory and run FastQC on each
 # -t 4 specifies 4 threads for FastQC execution (adjust as necessary)
-for file in $INPATH/*.fq ;
+for file in $INPATH/*.{fq,fastq,fq.gz,fastq.gz};
 do
     echo "Running FastQC on $file..."
     fastqc /data/$(basename $file) --outdir /output -t 4
@@ -34,5 +34,4 @@ done
 echo "Running MultiQC on FastQC output (forcing report overwrite with -f)..."
 multiqc /output -o /output -f
 
-# Print a completion message
 echo "FastQC and MultiQC analysis complete!"
