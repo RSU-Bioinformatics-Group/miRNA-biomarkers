@@ -5,7 +5,7 @@
 # The input file `countDataFilt10Counts.txt` can now be specified as a command-line argument.
 
 # USAGE:
-# Rscript 05_runLIMMA_DE.R <counts_table>
+# Rscript 04_runLIMMA_DE.R <counts_table>
 
 # Load required packages
 library(limma)
