@@ -7,7 +7,7 @@
 # (those with a p-value < 0.05) to a CSV file.
 
 # USAGE:
-# python 07_runANOVA_DEG.py --normalized <normalized_data_file> --up <upregulated_genes_file> --down <downregulated_genes_file> --output <output_csv_file>
+# python 06_runANOVA_DEG.py --normalized <normalized_data_file> --up <upregulated_genes_file> --down <downregulated_genes_file> --output <output_csv_file>
 
 import pandas as pd
 import numpy as np
