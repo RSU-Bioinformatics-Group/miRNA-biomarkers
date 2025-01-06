@@ -19,8 +19,8 @@ The repository contains all the scripts used pre-processing and analysing miRNA 
 ## Usage: 
 ### Prerequisites:
 Before running the scripts please ensure:
-1. You have Docker installed on your machine. Check this link for more information: [docker installation] (https://docs.docker.com/engine/install/).
-In case you want to use the workflow within an HPC environment, you should have Singularity installed there. Learn more about Singularity here: [intro to Singularity] (https://bioinformaticsworkbook.org/Appendix/HPC/Containers/Intro_Singularity.html#gsc.tab=0).
+1. You have Docker installed on your machine. Check this link for more information: [docker installation](https://docs.docker.com/engine/install/).
+In case you want to use the workflow within an HPC environment, you should have Singularity installed there. Learn more about Singularity here: [intro to Singularity](https://bioinformaticsworkbook.org/Appendix/HPC/Containers/Intro_Singularity.html#gsc.tab=0).
 2. You have cloned the Github repository with the necessary scripts. To do this, run (replace `.` with the directory you want to clone the repository to if necessary):
 ```
 git clone https://github.com/tkiselova/miRNA-biomarkers .
