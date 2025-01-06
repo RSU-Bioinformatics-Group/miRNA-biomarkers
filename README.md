@@ -152,6 +152,6 @@ docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 09_uni
 ```
 The scripts used for visualisations and correlation calculation `07_createVolcanoPlots.ipynb`, `08_createPCA_heatmap_DE_miR.ipynb` and `10_doCorrelation.ipynb` can be run in Jupyter Notebook.
 ## Visual summary of the workflow:
-<img src="https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031" width="600">
+<img src="https://github.com/user-attachments/assets/5b579158-6ccd-45fb-b7d7-428a95962f9e" width="600" alt="Summary of the workflow" class="center">
 
 A summary of the workflow. Urine miRNA data analysis workflow marked in yellow, whole blood transcriptome data analysis workflow – in light red, workflow connecting both data types – in orange.
