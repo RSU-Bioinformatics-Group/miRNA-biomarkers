@@ -49,19 +49,19 @@ gunzip Homo_sapiens.GRCh38.113.gtf.gz Homo_sapiens.GRCh38.dna_sm.toplevel.fa.gz
 ```
 - building bowtie index for miRDeep2:
 ```
-docker run -v /path/to/references:/data2 build_bowtie-index.sh /path/to/genome_fasta output_file_name 
+docker run -v /path/to/references:/data2 mirna-biomarker-pipeline bash build_bowtie-index.sh /path/to/genome_fasta output_file_name 
 ```
 If you are using Singularity, instead run:
 ```
-singularity exec --bind /path/to/references:/data2 build_bowtie-index.sh /path/to/genome_fasta output_file_name
+singularity exec --bind /path/to/references:/data2 mirna-biomarker-pipeline bash build_bowtie-index.sh /path/to/genome_fasta output_file_name
 ```
 - building STAR index for mRNA alignment:
 ```
-docker run -v /path/to/references:/data2 build_STAR-index.sh /path/to/genome_fasta /path/to/gtf_file
+docker run -v /path/to/references:/data2 mirna-biomarker-pipeline bash build_STAR-index.sh /path/to/genome_fasta /path/to/gtf_file
 ```
 or, for Singularity:
 ```
-singularity exec --bind /path/to/references:/data2 build_STAR-index.sh /path/to/genome_fasta /path/to/gtf_file
+singularity exec --bind /path/to/references:/data2 mirna-biomarker-pipeline bash build_STAR-index.sh /path/to/genome_fasta /path/to/gtf_file
 ```
 - for miRNA sequences from miRBase. The `extract_miRNAs.pl` script from miRDeep2 prepares the reference files for further use for miRDeep2:
 ```
@@ -69,8 +69,8 @@ wget https://www.mirbase.org/download/CURRENT/hairpin.fa
 wget https://www.mirbase.org/download/CURRENT/mature.fa
 perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
 perl -plane 's/\s+.+$//' < hairpin.fa > hairpin_2.fa
-docker run -v /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
-docker run -v /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
+docker run -v /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline perl extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
+docker run -v /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline perl extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
 ```
 If you are using Singularity, instead run:
 ```
@@ -78,46 +78,80 @@ wget https://www.mirbase.org/download/CURRENT/hairpin.fa
 wget https://www.mirbase.org/download/CURRENT/mature.fa
 perl -plane 's/\s+.+$//' < mature.fa > mature_2.fa
 perl -plane 's/\s+.+$//' < hairpin.fa > hairpin_2.fa
-singularity exec --bind /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
-singularity exec --bind /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
+singularity exec --bind /path/to/mature_2.fa:/data2 mirna-biomarker-pipeline perl extract_miRNAs.pl mature_2.fa hsa > miRBase_mature_hsa_v22_3.fa
+singularity exec --bind /path/to/hairpin_2.fa:/data2 mirna-biomarker-pipeline perl extract_miRNAs.pl hairpin_2.fa hsa > miRBase_hairpin_hsa_v22_3.fa
 ```
 ### Running the workflow:
-1. Running FastQC and MultiQC (replace `/path/to/` with paths to appropriate directories):
+The commands below describe the launching of the scripts (replace `/path/to/` with paths to appropriate directories). For more information on required inputs, see each of the scripts' description.
+1. Running FastQC and MultiQC:
 ```
-docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline 01_runFastQC_MultiQC.sh /path/to/input_directory /path/to/output_directory
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline bash 01_runFastQC_MultiQC.sh /path/to/input_directory /path/to/output_directory
 ```
 #### miRNA workflow:
-2. Running miRDeep2 for miRNA alignment and count generation (replace `/path/to/` with paths to appropriate directories):
+2. Running miRDeep2 for miRNA alignment and count generation:
 ```
-docker run -v /path/to/parent_dir:/data2 03_runmirDeep2.sh path/to/input_directory path/to/output_directory path/to/bowtie_index_path path/to/reference_genome path/to/mature_mirna_file path/to/hairpin_mirna_file
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline bash 03_runmirDeep2.sh path/to/input_directory path/to/output_directory path/to/bowtie_index path/to/reference_genome path/to/mature_mirna_file path/to/hairpin_mirna_file
 ```
-3. Merging miRNA precursors and filter out low (median <10) counts (replace `/path/to/` with paths to appropriate directories):
+3. Merging miRNA precursors and filter out low (median <10) counts:
 ```
-docker run -v /path/to/parent_dir:/data2 04_mergePrecursors_filterLowCounts.py path/to/input_directory path/to/output_directory path/to/clinical_ids_file
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline python3 04_mergePrecursors_filterLowCounts.py path/to/input_directory path/to/output_directory path/to/clinical_ids_file
 
 ```
-4. Performing differential expression analysis using limma (replace `/path/to/` with paths to appropriate directories):
+4. Performing differential expression analysis using limma:
 ```
-docker run -v /path/to/parent_dir:/data2 04_runLIMMA_DE.R /path/to/counts_table
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 04_runLIMMA_DE.R /path/to/counts_table
 ```
-5. Feature seelction with LASSO regularised linear regression (replace `/path/to/` with paths to appropriate directories):
+5. Feature seelction with LASSO regularised linear regression:
 ```
-docker run -v /path/to/parent_dir:/data2 05_runLASSO_DEG.R /path/to/upregulated_genes_file /path/to/downregulated_genes_file /path/to/normalized_expression_file
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 05_runLASSO_DEG.R /path/to/upregulated_genes_file /path/to/downregulated_genes_file /path/to/normalized_expression_file
 ```
-6. Feature selection with ANOVA (replace `/path/to/` with paths to appropriate directories):
+6. Feature selection with ANOVA:
 ```
-docker run -v /path/to/parent_dir:/data2 06_runANOVA_DEG.py --normalized /path/to/normalized_data_file --up /path/to/upregulated_genes_file --down /path/to/downregulated_genes_file --output /path/to/output_csv_file
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline python3 06_runANOVA_DEG.py --normalized /path/to/normalized_data_file --up /path/to/upregulated_genes_file --down /path/to/downregulated_genes_file --output /path/to/output_csv_file
 ```
-7. Creating volcano plots for differentially expressed genes:
-8. Performing PCA and clustering analysis with figure generation:
-
 #### mRNA workflow
 2. Running STAR for alignment:
-3. Running Qualimap with MultiQC for alignment quliaty control:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline bash 02_runSTAR.sh path/to/star_index_path /path/to/forward_reads /path/to/reverse_reads /path/to/output_directory
+```
+3. Running Qualimap with MultiQC for alignment quality control:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline bash 03_runQualimap_MultiQC.sh /path/to/input_bam /path/to/output_directory /path/to/gtf_file
+```
 4. Merging files from different sequencing lanes of one sample with Samtools:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline bash 04_merge_bam_SAMtools.sh path/to/input_directory path/to/output_directory
+```
 5. Generating counts with featureCounts:
-6. Merging count table :
-7. Mapping gene names to Ensemble 
-
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 05_runFeaturecounts.R /path/to/input_bam /path/to/gtf_file /path/to/output_directory/status-file /path/to/output_directory/count-table
+```
+6. Merging count table:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline python3 10_renameGenerateCountTable.py /path/to/featureCounts_directory
+```
+7.1. Filtering out low counts:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline python3 07_maptoEnsemble_filterLowCounts.py filter /path/to/countData.txt > path/to/countDataFilt10Counts.txt
+```
+7.2. Mapping gene names to Ensemble:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline python3 map /path/to/countDataFilt10Counts.txt /path/to/gtf_file > path/to/countDataFilt10CountsGeneSymbols.txt
+```
+8.1. Performing differential expression analysis using limma:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 08_1_runLIMMA_DE.R path/to/countDataFilt10CountsGeneSymbols.txt path/to/metadata_file /path/to/output_directory
+```
+8.2. Performing differential expression analysis using DESeq2:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 08_2_run_DESeq2_DE.R path/to/countData.txt path/to/metadata_file path/to/output_directory
+```
+9. Unifying the results of differential expression analysis:
+```
+docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 09_unify_DEGs.R
+```
+The scripts used for visualisations and correlation calculation `07_createVolcanoPlots.ipynb`, `08_createPCA_heatmap_DE_miR.ipynb` and `10_doCorrelation.ipynb` can be run in Jupyter Notebook.
+## Visual summary of the workflow:
 <img src="https://github.com/user-attachments/assets/a7d31e53-1c7b-4bcd-a4a3-8f43b4af1031" width="600">
+
 A summary of the workflow. Urine miRNA data analysis workflow marked in yellow, whole blood transcriptome data analysis workflow – in light red, workflow connecting both data types – in orange.
