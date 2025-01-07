@@ -16,9 +16,11 @@ The repository contains all the scripts used pre-processing and analysing miRNA 
 - Count table processing for differential expression analysis using Python pandas library.
 - Normalisation and differential expression using R packages edgeR, limma and DESeq2.
 - Image producting using various R libraries mentioned below.
+
 <div align="center">
 <img src="https://github.com/user-attachments/assets/5b579158-6ccd-45fb-b7d7-428a95962f9e" width="600" alt="Summary of the workflow">
 </div>
+
 ## Usage: 
 ### Prerequisites:
 Before running the scripts please ensure:
