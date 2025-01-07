@@ -16,6 +16,9 @@ The repository contains all the scripts used pre-processing and analysing miRNA 
 - Count table processing for differential expression analysis using Python pandas library.
 - Normalisation and differential expression using R packages edgeR, limma and DESeq2.
 - Image producting using various R libraries mentioned below.
+<div align="center">
+<img src="https://github.com/user-attachments/assets/5b579158-6ccd-45fb-b7d7-428a95962f9e" width="600" alt="Summary of the workflow">
+</div>
 ## Usage: 
 ### Prerequisites:
 Before running the scripts please ensure:
@@ -150,8 +153,4 @@ docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 08_2_r
 ```
 docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 09_unify_DEGs.R
 ```
-The scripts used for visualisations and correlation calculation `07_createVolcanoPlots.ipynb`, `08_createPCA_heatmap_DE_miR.ipynb` and `10_doCorrelation.ipynb` can be run in Jupyter Notebook.
-## Visual summary of the workflow:
-<div align="center">
-<img src="https://github.com/user-attachments/assets/5b579158-6ccd-45fb-b7d7-428a95962f9e" width="600" alt="Summary of the workflow">
-</div>
+The scripts used for visualisations and correlation calculation `07_createVolcanoPlots.ipynb`, `08_createPCA_heatmap_DE_miR.ipynb` and `10_doCorrelation.ipynb` can be run in [Jupyter Notebook](https://jupyter.org/).
