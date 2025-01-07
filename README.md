@@ -152,8 +152,6 @@ docker run -v /path/to/parent_dir:/data2 mirna-biomarker-pipeline Rscript 09_uni
 ```
 The scripts used for visualisations and correlation calculation `07_createVolcanoPlots.ipynb`, `08_createPCA_heatmap_DE_miR.ipynb` and `10_doCorrelation.ipynb` can be run in Jupyter Notebook.
 ## Visual summary of the workflow:
-<div style="text-align: center;">
+<div align="center">
 <img src="https://github.com/user-attachments/assets/5b579158-6ccd-45fb-b7d7-428a95962f9e" width="600" alt="Summary of the workflow">
-
-A summary of the workflow
 </div>
