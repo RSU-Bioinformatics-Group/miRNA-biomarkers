@@ -1,7 +1,7 @@
 # miRNA-biomarkers
 [![DOI](https://zenodo.org/badge/851540492.svg)](https://doi.org/10.5281/zenodo.14845444)
 
-This repository contains scripts that were used for miRNA and mRNA data pre-processing and miRNA diagnostic features prioritization in paediatric patients with bacterial or viral infections. All the analysis are optimized for execution using provided Docker image. 
+This repository contains scripts that were used for miRNA and mRNA data pre-processing and miRNA diagnostic features prioritization in paediatric patients with bacterial or viral infections described in this paper (pre-print): https://doi.org/10.1101/2025.03.28.25324176. All the analysis are optimized for execution using provided Docker image. 
 ## Description
 The repository contains all the scripts used pre-processing and analysing miRNA and mRNA datasets for diagnostic feature discovering. The steps include:
 ### miRNA workflow:
