@@ -13,7 +13,7 @@ The repository contains all the scripts used pre-processing and analysing miRNA 
 - Image producting using various R libraries mentioned below.
 ### mRNA workflow:
 - Quality control of the raw data using FastQC and combining the outputs using MultiQC.
-- Mapping to human reference genome (add version) using STAR.
+- Mapping to human reference genome (hg38) using STAR.
 - Adding transcripts to genome features using R package featurecounts.
 - Count table processing for differential expression analysis using Python pandas library.
 - Normalisation and differential expression using R packages edgeR, limma and DESeq2.
